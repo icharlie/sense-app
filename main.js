@@ -1,5 +1,6 @@
 const electron = require('electron')
 const {app, Menu, BrowserWindow} = electron
+const debug = require('electron-debug')
 const path = require('path')
 const url = require('url')
 
@@ -19,9 +20,6 @@ function createWindow () {
     slashes: true
   }))
 
-  // Open the DevTools.
-  // mainWindow.webContents.openDevTools()
-
   // Emitted when the window is closed.
   mainWindow.on('closed', function () {
     // Dereference the window object, usually you would store windows
@@ -29,30 +27,47 @@ function createWindow () {
     // when you should delete the corresponding element.
     mainWindow = null
   })
-   mainWindow.on("closed", function () {
-        mainWindow =  null;
-    });
+  mainWindow.on("closed", function () {
+    mainWindow =  null;
+  });
 
-    // Create the Application's main menu
-    var template = [{
-        label: "Application",
+  // Create the Application's main menu
+  var template = [{
+    label: "Application",
+    submenu: [
+      { label: "About Application", selector: "orderFrontStandardAboutPanel:" },
+      { type: "separator" },
+      { label: "Quit", accelerator: "Command+Q", click: function() { app.quit(); }}
+    ]}, {
+      label: "Edit",
+      submenu: [
+        { label: "Undo", accelerator: "CmdOrCtrl+Z", selector: "undo:" },
+        { label: "Redo", accelerator: "Shift+CmdOrCtrl+Z", selector: "redo:" },
+        { type: "separator" },
+        { label: "Cut", accelerator: "CmdOrCtrl+X", selector: "cut:" },
+        { label: "Copy", accelerator: "CmdOrCtrl+C", selector: "copy:" },
+        { label: "Paste", accelerator: "CmdOrCtrl+V", selector: "paste:" },
+        { label: "Select All", accelerator: "CmdOrCtrl+A", selector: "selectAll:" }
+      ]}, {
+        label: 'View',
         submenu: [
-            { label: "About Application", selector: "orderFrontStandardAboutPanel:" },
-            { type: "separator" },
-            { label: "Quit", accelerator: "Command+Q", click: function() { app.quit(); }}
-        ]}, {
-        label: "Edit",
-        submenu: [
-            { label: "Undo", accelerator: "CmdOrCtrl+Z", selector: "undo:" },
-            { label: "Redo", accelerator: "Shift+CmdOrCtrl+Z", selector: "redo:" },
-            { type: "separator" },
-            { label: "Cut", accelerator: "CmdOrCtrl+X", selector: "cut:" },
-            { label: "Copy", accelerator: "CmdOrCtrl+C", selector: "copy:" },
-            { label: "Paste", accelerator: "CmdOrCtrl+V", selector: "paste:" },
-            { label: "Select All", accelerator: "CmdOrCtrl+A", selector: "selectAll:" }
-        ]}
-    ]
-    Menu.setApplicationMenu(Menu.buildFromTemplate(template));
+          {
+            label: 'Developr',
+            submenu: [
+              { label: 'Developer Tools', accelerator: "CmdOrCtrl+Alt+i", click: () =>  {
+                const { webContents } = mainWindow
+                if (webContents.isDevToolsOpened()) {
+                  webContents.closeDevTools()
+                  return
+                }
+                webContents.openDevTools()
+              }}
+            ]
+          }
+        ]
+      }
+  ]
+  Menu.setApplicationMenu(Menu.buildFromTemplate(template));
 }
 
 // This method will be called when Electron has finished
