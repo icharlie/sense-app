@@ -1,12 +1,12 @@
 {
-  "name": "electron-quick-start",
+  "name": "ElasticSearch Tool",
   "version": "1.0.0",
-  "description": "A minimal Electron application",
+  "description": "A JSON aware developer console to ElasticSearch.",
   "main": "main.js",
   "scripts": {
     "start": "electron ."
   },
-  "repository": "https://github.com/electron/electron-quick-start",
+  "repository": "https://github.com/icharlie/sense-app",
   "keywords": [
     "sense",
     "app"
