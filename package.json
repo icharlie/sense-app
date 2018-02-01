@@ -18,5 +18,8 @@
     "electron": "~1.8.1",
     "electron-debug": "^1.4.0"
   },
-  "dependencies": {}
+  "dependencies": {
+    "electron-in-page-search": "^1.2.4",
+    "mousetrap": "^1.6.1"
+  }
 }
