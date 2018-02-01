@@ -1,6 +1,5 @@
 const electron = require('electron')
 const {app, Menu, BrowserWindow} = electron
-const debug = require('electron-debug')
 const path = require('path')
 const url = require('url')
 

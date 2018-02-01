@@ -1,5 +1,5 @@
 {
-  "name": "ElasticSearch Tool",
+  "name": "ElasticSearchTool",
   "version": "1.0.0",
   "description": "A JSON aware developer console to ElasticSearch.",
   "main": "main.js",
@@ -15,8 +15,7 @@
   "license": "CC0-1.0",
   "devDependencies": {
     "devtron": "^1.4.0",
-    "electron": "~1.8.1",
-    "electron-debug": "^1.4.0"
+    "electron": "~1.8.1"
   },
   "dependencies": {
     "electron-in-page-search": "^1.2.4",
