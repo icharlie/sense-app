@@ -81,6 +81,7 @@ function callES(server, url, method, data, successCallback, completeCallback) {
         password: password,
         username: uname,
         crossDomain: true,
+				contentType: 'application/json',
         type: method,
         dataType: "json",
         complete: completeCallback,

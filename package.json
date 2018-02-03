@@ -15,7 +15,7 @@
   "license": "CC0-1.0",
   "devDependencies": {
     "devtron": "^1.4.0",
-    "electron": "~1.8.1"
+    "electron": "^1.7.12"
   },
   "dependencies": {
     "electron-in-page-search": "^1.2.4",
