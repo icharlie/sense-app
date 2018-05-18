@@ -42,7 +42,7 @@ body {
 }
 
 .editor_position {
-    position: absolute;
+    position: absolute !important;
     top: 50px;
     bottom: 0;
     left: 0;

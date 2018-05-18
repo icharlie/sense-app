@@ -61,7 +61,6 @@ function callES(server, url, method, data, successCallback, completeCallback) {
     var uname = url_parts[2];
     var password = url_parts[3];
     url = url_parts[1] + url_parts[4];
-    console.log("Calling " + url + "  (uname: " + uname + " pwd: " + password + ")");
     if (data && method == "GET") method = "POST";
 
     $.ajax({
