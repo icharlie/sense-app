@@ -140,26 +140,29 @@
    }
 
    function getFieldNamesFromTypeMapping(type_mapping) {
-      var field_list =
-         $.map(type_mapping['properties'], function (field_mapping, field_name) {
-            return getFieldNamesFromFieldMapping(field_name, field_mapping);
-         });
+       if (type_mapping.properties) {
+            var field_list =
+                $.map(type_mapping['properties'], function (field_mapping, field_name) {
+                    return getFieldNamesFromFieldMapping(field_name, field_mapping);
+                });
 
-      // deduping
-      var last = undefined;
-      field_list.sort();
-      return $.map(field_list, function (f) {
-         var r = (f === last) ? null : f;
-         last = f;
-         return r;
-      });
+            // deduping
+            var last = undefined;
+            field_list.sort();
+            return $.map(field_list, function (f) {
+                var r = (f === last) ? null : f;
+                last = f;
+                return r;
+            });
+       }
+       return [];
    }
 
    function loadMappings(mappings) {
       per_index_types = {};
       $.each(mappings, function (index, index_mapping) {
          var normalized_index_mappings = {};
-         $.each(index_mapping, function (type_name, type_mapping) {
+         $.each(index_mapping.mappings, function (type_name, type_mapping) {
             var field_list = getFieldNamesFromTypeMapping(type_mapping);
             normalized_index_mappings[type_name] = field_list;
          });
