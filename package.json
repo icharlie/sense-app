@@ -1,5 +1,5 @@
 {
-  "name": "ElasticSearchTool",
+  "name": "Sense",
   "version": "1.0.0",
   "description": "A JSON aware developer console to ElasticSearch.",
   "main": "main.js",

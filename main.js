@@ -10,7 +10,7 @@ let mainWindow
 function createWindow () {
   // Create the browser window.
   const {width, height} = electron.screen.getPrimaryDisplay().workAreaSize
-  mainWindow = new BrowserWindow({width, height})
+  mainWindow = new BrowserWindow({width, height, icon: path.join(__dirname, 'icons/logo128.png')})
 
   // and load the index.html of the app.
   mainWindow.loadURL(url.format({
@@ -37,9 +37,9 @@ function createWindow () {
       submenu: [
         { label: "About Application", selector: "orderFrontStandardAboutPanel:" },
         { type: "separator" },
-        { label: "Quit", accelerator: "Command+Q", click: function() { app.quit(); }}
+        { label: "Quit", accelerator: "CmdOrCtrl+Q", click: function() { app.quit(); }}
       ]
-    }, 
+    },
     {
       label: "Edit",
       submenu: [
@@ -51,7 +51,7 @@ function createWindow () {
         { label: "Paste", accelerator: "CmdOrCtrl+V", selector: "paste:" },
         { label: "Select All", accelerator: "CmdOrCtrl+A", selector: "selectAll:" }
       ]
-    }, 
+    },
     {
       label: 'View',
       submenu: [
@@ -62,7 +62,7 @@ function createWindow () {
         {role: 'zoomin'},
         {role: 'zoomout'},
         {type: 'separator'},
-        {role: 'togglefullscreen'},  
+        {role: 'togglefullscreen'},
         {role: 'toggledevtools'}
       ]
     }
