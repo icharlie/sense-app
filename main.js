@@ -31,13 +31,16 @@ function createWindow () {
   });
 
   // Create the Application's main menu
-  var template = [{
-    label: "Application",
-    submenu: [
-      { label: "About Application", selector: "orderFrontStandardAboutPanel:" },
-      { type: "separator" },
-      { label: "Quit", accelerator: "Command+Q", click: function() { app.quit(); }}
-    ]}, {
+  var template = [
+    {
+      label: "Application",
+      submenu: [
+        { label: "About Application", selector: "orderFrontStandardAboutPanel:" },
+        { type: "separator" },
+        { label: "Quit", accelerator: "Command+Q", click: function() { app.quit(); }}
+      ]
+    }, 
+    {
       label: "Edit",
       submenu: [
         { label: "Undo", accelerator: "CmdOrCtrl+Z", selector: "undo:" },
@@ -47,24 +50,22 @@ function createWindow () {
         { label: "Copy", accelerator: "CmdOrCtrl+C", selector: "copy:" },
         { label: "Paste", accelerator: "CmdOrCtrl+V", selector: "paste:" },
         { label: "Select All", accelerator: "CmdOrCtrl+A", selector: "selectAll:" }
-      ]}, {
-        label: 'View',
-        submenu: [
-          {
-            label: 'Developr',
-            submenu: [
-              { label: 'Developer Tools', accelerator: "CmdOrCtrl+Alt+i", click: () =>  {
-                const { webContents } = mainWindow
-                if (webContents.isDevToolsOpened()) {
-                  webContents.closeDevTools()
-                  return
-                }
-                webContents.openDevTools()
-              }}
-            ]
-          }
-        ]
-      }
+      ]
+    }, 
+    {
+      label: 'View',
+      submenu: [
+        {role: 'reload'},
+        {role: 'forcereload'},
+        {type: 'separator'},
+        {role: 'resetzoom'},
+        {role: 'zoomin'},
+        {role: 'zoomout'},
+        {type: 'separator'},
+        {role: 'togglefullscreen'},  
+        {role: 'toggledevtools'}
+      ]
+    }
   ]
   Menu.setApplicationMenu(Menu.buildFromTemplate(template));
 }
