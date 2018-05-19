@@ -201,8 +201,6 @@ function copyAsCURL() {
         if (es_data.length > 1) curl += "\n"; // end with a new line
         curl += "'";
     }
-
-    //console.log(curl);
     copyToClipboard(curl);
 
 }
@@ -323,6 +321,7 @@ function init() {
 
     sense.editor = ace.edit("editor");
     ace.require("ace/mode/sense");
+    sense.editor.container.style.lineHeight = 1.2;
     sense.editor.getSession().setMode("ace/mode/sense");
     sense.editor.setShowPrintMargin(false);
     sense.editor.getSession().setFoldStyle('markbeginend');
@@ -398,6 +397,7 @@ function init() {
 
 
     sense.output = ace.edit("output");
+    sense.output.container.style.lineHeight = 1.5;
     sense.output.getSession().setMode("ace/mode/json");
     sense.output.getSession().setFoldStyle('markbeginend');
     sense.output.setTheme("ace/theme/monokai");
