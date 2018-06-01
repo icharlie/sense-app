@@ -3,6 +3,14 @@ body {
     overflow: hidden;
 }
 
+h4 {
+    display: inline-block;
+}
+
+.modal-large {
+  width: 760px;
+}
+
 .pull-right-btn {
     float: right;
     margin-right: 5px;

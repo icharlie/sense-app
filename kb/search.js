@@ -20,6 +20,16 @@ sense.kb.addEndpointDescription('_search', {
          }
          // populated by a global rule
       },
+      aggs: {
+         __template: {
+            "NAME": {
+               "TYPE": {
+               }
+            }
+         }
+         // populated by a global rule
+      },
+
       filter: {
          // added by global rules.
       },

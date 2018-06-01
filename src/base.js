@@ -63,29 +63,82 @@ function callES(server, url, method, data, successCallback, completeCallback) {
     url = url_parts[1] + url_parts[4];
     if (data && method == "GET") method = "POST";
 
-    $.ajax({
-        url: url,
-        data: method == "GET" ? null : data,
-//      xhrFields: {
-//            withCredentials: true
-//      },
-//      headers: {
-//         "Authorization": "Basic " + btoa(uname + ":" + password)
-//      },
-//      beforeSend: function(xhr){
-//         xhr.withCredentials = true;
-//         xhr.setRequestHeader("Authorization", "Basic " + btoa(uname + ":" + password));
-//      },
+    var action = function () {
+        $.ajax({
+            url: url,
+            data: method == "GET" ? null : data,
+            //      xhrFields: {
+            //            withCredentials: true
+            //      },
+            //      headers: {
+            //         "Authorization": "Basic " + btoa(uname + ":" + password)
+            //      },
+            //      beforeSend: function(xhr){
+            //         xhr.withCredentials = true;
+            //         xhr.setRequestHeader("Authorization", "Basic " + btoa(uname + ":" + password));
+            //      },
 
-        password: password,
-        username: uname,
-        crossDomain: true,
-				contentType: 'application/json',
-        type: method,
-        dataType: "json",
-        complete: completeCallback,
-        success: successCallback
-    });
+            password: password,
+            username: uname,
+            crossDomain: true,
+            contentType: 'application/json',
+            type: method,
+            dataType: "json",
+            complete: completeCallback,
+            success: successCallback
+        });
+    }
+    if (method.toLowerCase() === 'delete') {
+        const [ host, indexName ] = url_parts[4].split('/')
+        if (indexName) {
+            $('#confirmation-modal .modal-header h3').text(`Delete ${indexName} index`)
+        }
+        if (host) {
+            $('#confirmation-modal .modal-body')
+                .html(`Do you want to delete <b>${indexName}</b> on <h4>${host}</h4>?`)
+        }
+        $('#confirmation-modal').modal()
+        $("#confirmation-modal #confirm-action").on('click', function (e) {
+            e.preventDefault()
+            action()
+            $('#confirmation-modal').modal('hide')
+        })
+    } else if (url.indexOf('_delete_by_query') !== -1) {
+        const [ host, indexName ] = url_parts[4].split('/')
+        if (indexName) {
+            $('#confirmation-modal .modal-header h3').text(`Delete ${indexName}'s data`)
+        }
+        if (host) {
+            $('#confirmation-modal .modal-body')
+            .html(`Do you want to delete <b>${indexName}</b> data matched the following query on <h4>${host}</h4>?<pre>${data}</pre>`)
+        }
+        $('#confirmation-modal').modal()
+        $("#confirmation-modal #confirm-action").on('click', function (e) {
+            e.preventDefault()
+            action()
+            $('#confirmation-modal').modal('hide')
+        })
+    } else if (url.indexOf('_update_by_query') !== -1) {
+        const [ host, indexName ] = url_parts[4].split('/')
+        if (indexName) {
+            $('#confirmation-modal .modal-header h3').text(`Update ${indexName}'s data`)
+        }
+        if (host) {
+            $('#confirmation-modal .modal-body')
+            .html(`Do you want to update <b>${indexName}</b> data by the following query on <h4>${host}</h4>?<pre>${data}</pre>`)
+        }
+        $('#confirmation-modal').modal()
+        $("#confirmation-modal #confirm-action").on('click', function (e) {
+            e.preventDefault()
+            action()
+            $('#confirmation-modal').modal('hide')
+        })
+    } else {
+        action()
+    }
+    $('#confirmation-modal').on('hidden', function () {
+        $("#notification").text("").css("visibility", "hidden");
+    })
 }
 
 function submitCurrentRequestToES() {
