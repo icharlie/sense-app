@@ -14,6 +14,9 @@ sense.kb.addEndpointDescription('_warmer', {
       },
       facets: {
          // populated by a global rule
+      },
+      aggs: {
+         // populated by a global rule
       }
    }
 });

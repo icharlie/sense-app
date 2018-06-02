@@ -1,5 +1,7 @@
-if (!sense)
-    sense = { };
+const { ipcRenderer } = require('electron')
+
+if (!sense) sense = { };
+window.settings = window.settings || {}
 
 sense.VERSION = "0.9.0";
 
@@ -77,7 +79,6 @@ function callES(server, url, method, data, successCallback, completeCallback) {
             //         xhr.withCredentials = true;
             //         xhr.setRequestHeader("Authorization", "Basic " + btoa(uname + ":" + password));
             //      },
-
             password: password,
             username: uname,
             crossDomain: true,
@@ -88,55 +89,43 @@ function callES(server, url, method, data, successCallback, completeCallback) {
             success: successCallback
         });
     }
+    const modal = $('#confirmation-modal')
+    const modalHeader = modal.find('.modal-header')
+    const modalBody = modal.find('.modal-body')
+    const confirmButton = modal.find('#confirm-action')
+    const confirmCallback = (e) => {
+        e.preventDefault()
+        action()
+        modal.modal('hide')
+    }
+    const initialModal = (header, body) => {
+        modalHeader.text(`<h3>${header}</h3>`)
+        modalBody.html(body)
+        modal.modal()
+    }
+    const [ host = "unknown", indexName = "unknown" ] = url_parts[4].split('/')
     if (method.toLowerCase() === 'delete') {
-        const [ host, indexName ] = url_parts[4].split('/')
-        if (indexName) {
-            $('#confirmation-modal .modal-header h3').text(`Delete ${indexName} index`)
-        }
-        if (host) {
-            $('#confirmation-modal .modal-body')
-                .html(`Do you want to delete <b>${indexName}</b> on <h4>${host}</h4>?`)
-        }
-        $('#confirmation-modal').modal()
-        $("#confirmation-modal #confirm-action").on('click', function (e) {
-            e.preventDefault()
-            action()
-            $('#confirmation-modal').modal('hide')
-        })
+        initialModal(
+            `Delete ${indexName} index`,
+            `Do you want to delete <b>${indexName}</b> on <h4>${host}</h4>?`
+        )
+        confirmButton.on('click', confirmCallback)
     } else if (url.indexOf('_delete_by_query') !== -1) {
-        const [ host, indexName ] = url_parts[4].split('/')
-        if (indexName) {
-            $('#confirmation-modal .modal-header h3').text(`Delete ${indexName}'s data`)
-        }
-        if (host) {
-            $('#confirmation-modal .modal-body')
-            .html(`Do you want to delete <b>${indexName}</b> data matched the following query on <h4>${host}</h4>?<pre>${data}</pre>`)
-        }
-        $('#confirmation-modal').modal()
-        $("#confirmation-modal #confirm-action").on('click', function (e) {
-            e.preventDefault()
-            action()
-            $('#confirmation-modal').modal('hide')
-        })
+        initialModal(
+            `Delete ${indexName}'s data`,
+            `Do you want to delete <b>${indexName}</b> data matched the following query on <h4>${host}</h4>?<pre>${data}</pre>`
+        )
+        confirmButton.on('click', confirmCallback)
     } else if (url.indexOf('_update_by_query') !== -1) {
-        const [ host, indexName ] = url_parts[4].split('/')
-        if (indexName) {
-            $('#confirmation-modal .modal-header h3').text(`Update ${indexName}'s data`)
-        }
-        if (host) {
-            $('#confirmation-modal .modal-body')
-            .html(`Do you want to update <b>${indexName}</b> data by the following query on <h4>${host}</h4>?<pre>${data}</pre>`)
-        }
-        $('#confirmation-modal').modal()
-        $("#confirmation-modal #confirm-action").on('click', function (e) {
-            e.preventDefault()
-            action()
-            $('#confirmation-modal').modal('hide')
-        })
+        initialModal(
+            `Update ${indexName}'s data`,
+            `Do you want to update <b>${indexName}</b> data by the following query on <h4>${host}</h4>?<pre>${data}</pre>`
+        )
+        confirmButton.on('click', confirmCallback)
     } else {
         action()
     }
-    $('#confirmation-modal').on('hidden', function () {
+    modal.on('hidden', function () {
         $("#notification").text("").css("visibility", "hidden");
     })
 }
@@ -375,6 +364,10 @@ function init() {
     sense.editor = ace.edit("editor");
     ace.require("ace/mode/sense");
     sense.editor.container.style.lineHeight = 1.2;
+    ipcRenderer.on('setting', (event) => {
+        settings.vimMode = !settings.vimMode
+        sense.editor.setKeyboardHandler( settings.vimMode ? "ace/keyboard/vim" : null)
+    })
     sense.editor.getSession().setMode("ace/mode/sense");
     sense.editor.setShowPrintMargin(false);
     sense.editor.getSession().setFoldStyle('markbeginend');

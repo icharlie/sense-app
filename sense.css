@@ -252,3 +252,8 @@ h4 {
 .ui-resizable-e.active {
     background-color: rgba(194, 193, 208, 100);
 }
+
+.normal-mode .ace_cursor.ace_cursor {
+  border: none;
+  background-color: rgba(173, 173, 173, 0.8);
+}
