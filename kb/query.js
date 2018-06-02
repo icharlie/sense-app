@@ -41,6 +41,9 @@ sense.kb.addGlobalAutocompleteRules("query", {
       must: [
          { __scope_link: "GLOBAL.query"}
       ],
+      filter: [
+         { __scope_link: "GLOBAL.query"}
+      ],
       must_not: [
          { __scope_link: "GLOBAL.query"}
       ],
@@ -86,14 +89,7 @@ sense.kb.addGlobalAutocompleteRules("query", {
       "$FIELD$": {
          query: "", boost: 2.0,
          enable_position_increments: { __template: false, __one_of: [ true, false ]}
-      } },
-   filtered: {
-      __template: {
-         query: {},
-         filter: {}
-      },
-      query: {},
-      filter: {}
+      }
    },
    fuzzy_like_this: {
       fields: [],

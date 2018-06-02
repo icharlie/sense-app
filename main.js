@@ -3,6 +3,12 @@ const {app, Menu, BrowserWindow, ipcMain} = electron
 const path = require('path')
 const url = require('url')
 
+if (process.env.NODE_ENV === 'development') {
+  require('electron-reload')(__dirname, {
+    electron:  path.join(__dirname, 'node_modules', '.bin', 'electron')
+  })
+}
+
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow
@@ -30,15 +36,14 @@ function createWindow () {
     mainWindow =  null;
   });
 
-  let contentMenu;
 
   // Create the Application's main menu
   var template = [
     {
-      label: "Application",
+      label: "Sense",
       submenu: [
-        { label: "About Application", selector: "orderFrontStandardAboutPanel:" },
-        { type: "separator" },
+        // { label: "About Application", selector: "orderFrontStandardAboutPanel:" },
+        // { type: "separator" },
         { label: "Quit", accelerator: "CmdOrCtrl+Q", click: function() { app.quit(); }}
       ]
     },
@@ -57,12 +62,12 @@ function createWindow () {
         {type: 'separator'},
         {
           label: 'Vim mode',
-          id: 'vim-mode',
+          accelerator: "CmdOrCtrl+alt+,",
           type: 'checkbox',
-          accelerator: 'CommandOrControl+alt+,',
           click() {
             mainWindow.webContents.send('setting', 'toggle-vim')
-        }}
+          }
+        }
       ]
     },
     {
@@ -80,7 +85,7 @@ function createWindow () {
       ]
     }
   ]
-  Menu.setApplicationMenu((contentMenu = Menu.buildFromTemplate(template)));
+  Menu.setApplicationMenu(Menu.buildFromTemplate(template));
 }
 
 // This method will be called when Electron has finished

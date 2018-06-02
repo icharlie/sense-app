@@ -19,7 +19,8 @@
     "devtron": "^1.4.0",
     "electron": "^1.8.7",
     "electron-installer-debian": "^0.8.1",
-    "electron-packager": "^12.1.0"
+    "electron-packager": "^12.1.0",
+    "electron-reload": "^1.2.2"
   },
   "dependencies": {}
 }
