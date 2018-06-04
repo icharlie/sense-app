@@ -93,13 +93,14 @@ function callES(server, url, method, data, successCallback, completeCallback) {
     const modalHeader = modal.find('.modal-header')
     const modalBody = modal.find('.modal-body')
     const confirmButton = modal.find('#confirm-action')
+    confirmButton.off('click');
     const confirmCallback = (e) => {
         e.preventDefault()
         action()
         modal.modal('hide')
     }
     const initialModal = (header, body) => {
-        modalHeader.text(`<h3>${header}</h3>`)
+        modalHeader.html(`<h3>${header}</h3>`)
         modalBody.html(body)
         modal.modal()
     }
