@@ -9,7 +9,7 @@
     "build-mac": "electron-packager . Sense --overwrite --platform darwin --arch x64 --icon icons/logo128.icns --prune true --out dist/",
     "build-win": "electron-packager . Sense --overwrite --asar --platform win32 --arch x64 --icon icons/logo128.ico --prune true --out dist/ --version-string.CompanyName 'Charlie Chang' --version-string.FileDescription=CE --version-string.ProductName 'Sense App'",
     "deb64": "electron-installer-debian --src dist/Sense-linux-x64 --dest dist/installers/ --arch amd64 --config config.json",
-    "win64": "electron-installer-windows --src dist/Sense-win32-x64 --config config-win.json"
+    "win64": "electron-builder --win"
   },
   "repository": "https://github.com/icharlie/sense-app",
   "keywords": [
