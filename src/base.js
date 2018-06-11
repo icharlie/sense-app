@@ -104,12 +104,19 @@ function callES(server, url, method, data, successCallback, completeCallback) {
         modalBody.html(body)
         modal.modal()
     }
-    const [ host = "unknown", indexName = "unknown" ] = url_parts[4].split('/')
+    const [ host = "unknown", indexName = "unknown", type = "unknow", document = null ] = url_parts[4].split('/')
     if (method.toLowerCase() === 'delete') {
-        initialModal(
-            `Delete ${indexName} index`,
-            `Do you want to delete <b>${indexName}</b> on <h4>${host}</h4>?`
-        )
+        if (document) {
+            initialModal(
+                `Delete on ${document} document`,
+                `Do you want to delete <b>${document}</b> document  <b>${indexName}</b> on <h4>${host}</h4>?`
+            )
+        } else {
+            initialModal(
+                `Delete ${indexName} index`,
+                `Do you want to delete <b>${indexName}</b> on <h4>${host}</h4>?`
+            )
+        }
         confirmButton.on('click', confirmCallback)
     } else if (url.indexOf('_delete_by_query') !== -1) {
         initialModal(
